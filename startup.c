@@ -64,6 +64,8 @@ extern unsigned long _end_bss;
 
 static unsigned long pulStack[64];
 
+void TimerIntHandlerServos(void);
+
 // NVIC ISR table
 // the funny looking void(* myvectors[])(void) basically it's a way to make cc accept an array of function pointers.
 __attribute__ ((section(".nvic_table")))
@@ -114,7 +116,7 @@ void(* myvectors[])(void) = {
     empty_def_handler,      // 16/32 bit timer 0 B              36
     empty_def_handler,      // 16/32 bit timer 1 A              37
     empty_def_handler,      // 16/32 bit timer 1 B              38
-    empty_def_handler,      // 16/32 bit timer 2 A              39
+    TimerIntHandlerServos,      // 16/32 bit timer 2 A              39
     empty_def_handler,      // 16/32 bit timer 2 B              40
     empty_def_handler,      // Analog comparator 0              41
     empty_def_handler,      // Analog comparator 1              42
