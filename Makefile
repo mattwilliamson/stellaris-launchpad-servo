@@ -93,9 +93,8 @@ STARTUP_FILE = startup
 # Linker file name
 LINKER_FILE = LM4F.ld
 
-SRC_UTILS = $(wildcard ${STELLARISWARE_PATH}utils/*.c)
 SRC = $(wildcard *.c)
-OBJS = $(SRC:.c=.o) $(SRC_UTILS:.c=.o)
+OBJS = $(SRC:.c=.o)
 
 #==============================================================================
 #                      Rules to make the target
