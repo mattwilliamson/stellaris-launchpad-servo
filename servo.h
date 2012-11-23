@@ -13,12 +13,16 @@
 #include "driverlib/rom_map.h"
 #include "driverlib/sysctl.h"
 
+typedef enum {
+    SERVO_STATE_INIT = 0,
+    SERVO_STATE_ENABLED = 1
+} SERVO_STATE;
+
 typedef struct {
     uint16_t value;
-    uint16_t counter;
     unsigned long port;
     unsigned char pin;
-    uint8_t enabled;
+    uint8_t state;
 } servo_t;
 
 #ifndef SERVO_MAX_COUNT
@@ -31,10 +35,11 @@ typedef struct {
 #define SERVO_TIMER_A TIMER_A
 #define SERVO_TIMER_PERIPH SYSCTL_PERIPH_TIMER2
 
-#define SERVO_TIMER_RESOLUTION 5    // 5 uS
+#define SERVO_TIMER_RESOLUTION 10 // Microseconds
 
-#define SERVO_MIN_VALUE 1000
-#define SERVO_MAX_VALUE 2000
+#define SERVO_MIN_PULSE 1000
+#define SERVO_MAX_PULSE 2000
+#define SERVO_PERIOD 20000
 
 void servoInit(void);
 void servoStart(void);

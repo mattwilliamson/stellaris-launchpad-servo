@@ -60,6 +60,7 @@ CFLAGS=-mthumb ${CPU} ${FPU} -Os -ffunction-sections -fdata-sections -MD -std=c9
 # Library stuff passed as flags!
 CFLAGS+= -I ${STELLARISWARE_PATH} -DPART_$(PART) -c -DTARGET_IS_BLIZZARD_RA1
 CFLAGS+= -I/Users/matt/bin/yagarto/yagarto-4.7.1/arm-none-eabi/include/ 
+CFLAGS+= -I ${STELLARISWARE_PATH}boards/ek-lm4f120xl/
 
 # Flags for LD
 LFLAGS  = --gc-sections
@@ -93,8 +94,10 @@ STARTUP_FILE = startup
 # Linker file name
 LINKER_FILE = LM4F.ld
 
+SRC_UTILS = $(wildcard ${STELLARISWARE_PATH}utils/*.c)
+SRC_DRIVERS = $(wildcard ${STELLARISWARE_PATH}boards/ek-lm4f120xl/drivers/*.c)
 SRC = $(wildcard *.c)
-OBJS = $(SRC:.c=.o)
+OBJS = $(SRC:.c=.o) $(SRC_UTILS:.c=.o) $(SRC_DRIVERS:.c=.o)
 
 #==============================================================================
 #                      Rules to make the target
@@ -130,4 +133,4 @@ clean:
 # Rule to load the project to the board
 # I added a sudo because it's needed without a rule.
 load:
-	sudo ${FLASHER} ${PROJECT_NAME}.bin ${FLASHER_FLAGS}
+	${FLASHER} ${PROJECT_NAME}.bin ${FLASHER_FLAGS}
